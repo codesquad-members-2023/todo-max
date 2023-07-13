@@ -1,6 +1,7 @@
 package codesquad.todolist.travelers.task.domain.dto.response;
 
 import codesquad.todolist.travelers.task.domain.entity.Task;
+import java.time.LocalDateTime;
 
 public class TaskResponseDto {
     private final Long taskId;
