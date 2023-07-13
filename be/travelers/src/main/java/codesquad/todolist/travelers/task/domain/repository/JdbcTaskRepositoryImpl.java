@@ -47,7 +47,7 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     @Override
     public void updateBy(final Long taskId, final Task task) {
         String sql = "UPDATE task " +
-                "SET title=:title, contents=:contents " +
+                "SET title = :title, contents = :contents " +
                 "WHERE task_id = :taskId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -59,8 +59,21 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
+    public void updateTaskBy(Long processId, Long taskId) {
+        String sql = "UPDATE task " +
+                "SET process_id = :processId " +
+                "WHERE task_id = :taskId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("processId", processId)
+                .addValue("taskId", taskId);
+
+        template.update(sql, param);
+    }
+
+    @Override
     public List<Task> findAllBy(final Long processId) {
-        String sql = "SELECT t.task_id, t.title, t.contents, t.platform, t.created_time, t.process_id, p.name "
+        String sql = "SELECT t.task_id, t.title, t.contents, t.platform, t.created_time, t.process_id "
                 + "FROM task t "
                 + "JOIN process p ON t.process_id = p.process_id "
                 + "WHERE t.process_id = :processId "
