@@ -1,4 +1,4 @@
-package codesquad.todolist.travelers.task.domain.dto;
+package codesquad.todolist.travelers.task.domain.dto.response;
 
 import codesquad.todolist.travelers.task.domain.entity.Process;
 import java.util.List;
