@@ -130,6 +130,6 @@ public class TaskController {
         taskService.updateTask(taskId, taskUpdateRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.success("200", taskUpdateRequestDto));
+                .body(ApiResponse.success("200", "카드 수정 성공!"));
     }
 }
