@@ -83,4 +83,12 @@ public class TaskController {
         return ResponseEntity.status(TASK_SUCCESS.getHttpStatus())
                 .body(CommonApiResponse.success(TASK_SUCCESS.getCustomStatus(), TASK_SUCCESS.getMessage()));
     }
+
+    @DeleteMapping("/task/{taskId}")
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long taskId) {
+        taskService.deleteTask(taskId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "카드 삭제 성공!"));
+    }
 }
