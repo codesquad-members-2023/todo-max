@@ -3,6 +3,7 @@ package codesquad.todolist.travelers.task.domain.repository;
 import codesquad.todolist.travelers.task.domain.entity.Process;
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -24,8 +25,8 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     @Override
     public Long save(final Task task) {
         // INSERT문에서는 JOIN 필요 X
-        String sql = "INSERT INTO task (task_id, title, contents, platform, created_time, process_id) "
-                + "VALUES (:taskId, :title, :contents, :platform, :createdTime, :processId)";
+        String sql = "INSERT INTO task (title, contents, platform, created_time, process_id) "
+                + "VALUES (:title, :contents, :platform, :createdTime, :processId)";
 
         SqlParameterSource param = new BeanPropertySqlParameterSource(task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -34,11 +35,22 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
+    public void deleteBy(Long taskId) {
+        String sql = "DELETE FROM task " +
+                "WHERE task_id = :taskId";
+
+        Map<String, Object> param = Map.of("taskId", taskId);
+
+        template.update(sql, param);
+    }
+
+    @Override
     public List<Task> findAllBy(final Long processId) {
         String sql = "SELECT t.task_id, t.title, t.contents, t.platform, t.created_time, t.process_id, p.name "
                 + "FROM task t "
                 + "JOIN process p ON t.process_id = p.process_id "
-                + "WHERE t.process_id = :processId";
+                + "WHERE t.process_id = :processId "
+                + "ORDER BY created_time DESC";
 
         SqlParameterSource param = new MapSqlParameterSource("processId", processId);
 
@@ -59,7 +71,7 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
                 rs.getString("title"),
                 rs.getString("contents"),
                 rs.getString("platform"),
-                rs.getDate("created_time").toString(),
+                rs.getTimestamp("created_time").toLocalDateTime(),
                 rs.getLong("process_id")
         ));
     }

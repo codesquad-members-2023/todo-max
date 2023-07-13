@@ -7,6 +7,8 @@ import java.util.List;
 public interface TaskRepository {
     Long save(final Task task);
 
+    void deleteBy(final Long taskId);
+
     List<Task> findAllBy(final Long processId);
 
     List<Process> findProcesses();
