@@ -9,6 +9,8 @@ public interface TaskRepository {
 
     void deleteBy(final Long taskId);
 
+    void updateBy(final Long taskId, final Task task);
+
     List<Task> findAllBy(final Long processId);
 
     List<Process> findProcesses();

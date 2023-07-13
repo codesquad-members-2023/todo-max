@@ -35,11 +35,25 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public void deleteBy(Long taskId) {
+    public void deleteBy(final Long taskId) {
         String sql = "DELETE FROM task " +
                 "WHERE task_id = :taskId";
 
         Map<String, Object> param = Map.of("taskId", taskId);
+
+        template.update(sql, param);
+    }
+
+    @Override
+    public void updateBy(final Long taskId, final Task task) {
+        String sql = "UPDATE task " +
+                "SET title=:title, contents=:contents " +
+                "WHERE task_id = :taskId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("title", task.getTitle())
+                .addValue("contents", task.getContents())
+                .addValue("taskId", taskId);
 
         template.update(sql, param);
     }
