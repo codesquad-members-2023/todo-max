@@ -117,7 +117,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/task/{taskId}")
-    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long taskId) {
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable final Long taskId) {
         taskService.deleteTask(taskId);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -125,11 +125,20 @@ public class TaskController {
     }
 
     @PatchMapping("/task/{taskId}")
-    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long taskId,
+    public ResponseEntity<ApiResponse<?>> update(@PathVariable final Long taskId,
                                                  @RequestBody final TaskUpdateRequestDto taskUpdateRequestDto) {
         taskService.updateTask(taskId, taskUpdateRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "카드 수정 성공!"));
+    }
+
+    @PatchMapping("/task/process/{taskId}")
+    public ResponseEntity<ApiResponse<?>> move(@PathVariable final Long taskId,
+                                               @RequestBody final TaskProcessIdRequestDto taskProcessIdRequestDto) {
+        taskService.updateTaskByProcess(taskProcessIdRequestDto, taskId);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", "카드 이동 성공!"));
     }
 }
