@@ -123,4 +123,13 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "카드 삭제 성공!"));
     }
+
+    @PatchMapping("/task/{taskId}")
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long taskId,
+                                                 @RequestBody final TaskUpdateRequestDto taskUpdateRequestDto) {
+        taskService.updateTask(taskId, taskUpdateRequestDto);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success("200", taskUpdateRequestDto));
+    }
 }
