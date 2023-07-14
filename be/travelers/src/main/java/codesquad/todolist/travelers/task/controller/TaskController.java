@@ -84,6 +84,8 @@ public class TaskController {
                 .body(CommonApiResponse.success(TASK_SUCCESS.getCustomStatus(), TASK_SUCCESS.getMessage()));
     }
 
+    @Operation(summary = "카드 삭제", description = "DELETE 요청으로 고유 ID에 따른 카드를 삭제한다.")
+    @Parameter(name = "taskId", description = "카드의 고유 ID")
     @DeleteMapping("/task/{taskId}")
     public ResponseEntity<ApiResponse<?>> delete(@PathVariable Long taskId) {
         taskService.deleteTask(taskId);
@@ -92,6 +94,8 @@ public class TaskController {
                 .body(ApiResponse.success("200", "카드 삭제 성공!"));
     }
 
+    @Operation(summary = "카드 수정", description = "PATCH 요청으로 고유 ID에 따른 카드를 수정한다.")
+    @Parameter(name = "taskId", description = "카드의 고유 ID")
     @PatchMapping("/task/{taskId}")
     public ResponseEntity<ApiResponse<?>> update(@PathVariable final Long taskId,
                                                  @RequestBody final TaskUpdateRequestDto taskUpdateRequestDto) {
@@ -101,6 +105,8 @@ public class TaskController {
                 .body(ApiResponse.success("200", "카드 수정 성공!"));
     }
 
+    @Operation(summary = "카드 이동", description = "PATCH 요청으로 원하는 칼럼(process)으로 카드를 이동시킨다. body로는 processId를 받는다.")
+    @Parameter(name = "taskId", description = "카드의 고유 ID")
     @PatchMapping("/task/process/{taskId}")
     public ResponseEntity<ApiResponse<?>> move(@PathVariable final Long taskId,
                                                @RequestBody final TaskProcessIdRequestDto taskProcessIdRequestDto) {
