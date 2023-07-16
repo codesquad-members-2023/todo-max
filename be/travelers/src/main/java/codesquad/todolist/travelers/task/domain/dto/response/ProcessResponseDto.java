@@ -14,7 +14,7 @@ public class ProcessResponseDto {
         this.tasks = tasks;
     }
 
-    public static ProcessResponseDto from(final Process process, final List<TaskResponseDto> tasks) {
+    public static ProcessResponseDto fromEntity(final Process process, final List<TaskResponseDto> tasks) {
         return new ProcessResponseDto(process.getProcessId(), process.getName(), tasks);
     }
 
