@@ -73,10 +73,9 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAllBy(final Long processId) {
-        String sql = "SELECT t.task_id, t.title, t.contents, t.platform, t.created_time, t.process_id "
-                + "FROM task t "
-                + "JOIN process p ON t.process_id = p.process_id "
-                + "WHERE t.process_id = :processId "
+        String sql = "SELECT task_id, title, contents, platform, created_time, process_id "
+                + "FROM task "
+                + "WHERE process_id = :processId "
                 + "ORDER BY created_time DESC";
 
         SqlParameterSource param = new MapSqlParameterSource("processId", processId);
