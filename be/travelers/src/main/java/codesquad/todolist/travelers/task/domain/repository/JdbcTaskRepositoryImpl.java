@@ -25,8 +25,8 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     @Override
     public Long save(final Task task) {
         // INSERT문에서는 JOIN 필요 X
-        String sql = "INSERT INTO task (title, contents, platform, created_time, process_id) "
-                + "VALUES (:title, :contents, :platform, :createdTime, :processId)";
+        String sql = "INSERT INTO task (title, contents, platform, process_id) "
+                + "VALUES (:title, :contents, :platform, :processId)";
 
         SqlParameterSource param = new BeanPropertySqlParameterSource(task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
