@@ -99,7 +99,10 @@ public class TaskController {
     @PatchMapping("/task/{taskId}")
     public ResponseEntity<ApiResponse<?>> update(@PathVariable final Long taskId,
                                                  @RequestBody final TaskUpdateRequestDto taskUpdateRequestDto) {
-        taskService.updateTask(taskId, taskUpdateRequestDto);
+        taskService.updateTask(
+                TaskServiceHistoryDto.builder()
+                        .taskId(taskId)
+                        .build(), taskId, taskUpdateRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "카드 수정 성공!"));
@@ -110,7 +113,11 @@ public class TaskController {
     @PatchMapping("/task/process/{taskId}")
     public ResponseEntity<ApiResponse<?>> move(@PathVariable final Long taskId,
                                                @RequestBody final TaskProcessIdRequestDto taskProcessIdRequestDto) {
-        taskService.updateTaskByProcess(taskProcessIdRequestDto, taskId);
+        taskService.updateTaskByProcess(
+                TaskServiceHistoryDto.builder()
+                        .taskId(taskId)
+                        .toId(taskProcessIdRequestDto.getProcessId())
+                        .build(), taskProcessIdRequestDto, taskId);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success("200", "카드 이동 성공!"));

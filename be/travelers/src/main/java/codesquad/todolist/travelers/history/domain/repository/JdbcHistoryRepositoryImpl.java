@@ -21,7 +21,6 @@ public class JdbcHistoryRepositoryImpl implements HistoryRepository {
     }
 
 
-
     @Override
     public void deleteAll() {
         String sql = "DELETE FROM history";
@@ -31,7 +30,8 @@ public class JdbcHistoryRepositoryImpl implements HistoryRepository {
 
     @Override
     public List<ActionHistory> findAll() {
-        String sql = "SELECT h.title, h.from, h.to, h.created_time, a.name AS action_name, u.name AS user_name, u.image_url "
+        String sql =
+                "SELECT h.title, h.created_time, h.from, h.to, a.name AS action_name, u.name AS user_name, u.image_url "
                         + "FROM history h "
                         + "JOIN action a ON a.action_id = h.action_id "
                         + "JOIN user u ON u.user_id = h.user_id "
@@ -42,8 +42,8 @@ public class JdbcHistoryRepositoryImpl implements HistoryRepository {
 
     @Override
     public Long save(final History history) {
-        String sql = "INSERT INTO history (title, from, to, action_id, user_id) "
-                + "VALUES (:title, :from, :to, :actionId, :userId)";
+        String sql = "INSERT INTO history (title, `from`, `to`, action_id, user_id) "
+                + "VALUES (:title, IFNULL(:from,''), IFNULL(:to,''), :actionId, :userId)";
 
         SqlParameterSource param = new BeanPropertySqlParameterSource(history);
         KeyHolder keyHolder = new GeneratedKeyHolder();
