@@ -16,4 +16,8 @@ public interface TaskRepository {
     List<Task> findAllBy(final Long processId);
 
     List<Process> findProcesses();
+
+    Task findBy(final Long taskId);
+
+    String findProcessNameBy(final Long processId);
 }

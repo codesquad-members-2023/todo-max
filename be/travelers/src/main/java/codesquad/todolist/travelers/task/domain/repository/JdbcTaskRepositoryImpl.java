@@ -89,6 +89,20 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
         return template.query(sql, processRowMapper());
     }
 
+    @Override
+    public Task findBy(final Long taskId) {
+        String sql = "SELECT * FROM task WHERE task_id = :taskId";
+
+        return template.queryForObject(sql, Map.of("taskId", taskId), taskRowMapper());
+    }
+
+    @Override
+    public String findProcessNameBy(final Long processId) {
+        String sql = "SELECT name FROM process WHERE process_id = :processId";
+
+        return template.queryForObject(sql, Map.of("processId", processId), String.class);
+    }
+
     private RowMapper<Task> taskRowMapper() {
         return ((rs, rowNum) -> new Task(
                 rs.getLong("task_id"),
