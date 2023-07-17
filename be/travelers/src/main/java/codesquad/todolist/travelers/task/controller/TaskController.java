@@ -133,7 +133,7 @@ public class TaskController {
     @Parameter(name = "taskId", description = "카드의 고유 ID")
     @PatchMapping("/task/{taskId}")
     public ResponseEntity<ApiResponse<?>> update(@PathVariable final Long taskId,
-                                                 @RequestBody final TaskUpdateRequestDto taskUpdateRequestDto) {
+                                                 @RequestBody @Valid final TaskUpdateRequestDto taskUpdateRequestDto) {
         taskService.updateTask(
                 TaskServiceHistoryDto.builder()
                         .taskId(taskId)
