@@ -3,9 +3,10 @@ package codesquad.todolist.travelers.task.domain.repository;
 import codesquad.todolist.travelers.task.domain.entity.Process;
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskRepository {
-    Long save(final Task task);
+    Optional<Long> save(final Task task);
 
     void deleteBy(final Long taskId);
 
