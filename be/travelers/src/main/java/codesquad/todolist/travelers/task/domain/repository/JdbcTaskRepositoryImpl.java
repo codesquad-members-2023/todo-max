@@ -5,6 +5,7 @@ import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -23,7 +24,7 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Long save(final Task task) {
+    public Optional<Long> save(final Task task) {
         // INSERT문에서는 JOIN 필요 X
         String sql = "INSERT INTO task (title, contents, platform, process_id) "
                 + "VALUES (:title, :contents, :platform, :processId)";
@@ -31,7 +32,7 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
         SqlParameterSource param = new BeanPropertySqlParameterSource(task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(sql, param, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+        return Optional.ofNullable(keyHolder.getKey()).map(Number::longValue);
     }
 
     @Override
