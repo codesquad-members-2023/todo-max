@@ -39,9 +39,7 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
         String sql = "DELETE FROM task " +
                 "WHERE task_id = :taskId";
 
-        Map<String, Object> param = Map.of("taskId", taskId);
-
-        template.update(sql, param);
+        template.update(sql, Map.of("taskId", taskId));
     }
 
     @Override
