@@ -4,6 +4,7 @@ import codesquad.todolist.travelers.history.domain.ActionHistory;
 import codesquad.todolist.travelers.history.domain.entity.History;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -41,14 +42,14 @@ public class JdbcHistoryRepositoryImpl implements HistoryRepository {
     }
 
     @Override
-    public Long save(final History history) {
+    public Optional<Long> save(final History history) {
         String sql = "INSERT INTO history (title, `from`, `to`, action_id, user_id) "
                 + "VALUES (:title, IFNULL(:from,''), IFNULL(:to,''), :actionId, :userId)";
 
         SqlParameterSource param = new BeanPropertySqlParameterSource(history);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(sql, param, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+        return Optional.ofNullable(keyHolder.getKey()).map(Number::longValue);
     }
 
     private RowMapper<ActionHistory> ActionhistoryRowMapper() {
