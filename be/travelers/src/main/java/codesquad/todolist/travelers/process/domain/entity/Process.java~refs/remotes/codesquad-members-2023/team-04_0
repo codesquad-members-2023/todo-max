@@ -1,4 +1,4 @@
-package codesquad.todolist.travelers.task.domain.entity;
+package codesquad.todolist.travelers.process.domain.entity;
 
 public class Process {
     private Long processId;
@@ -9,11 +9,20 @@ public class Process {
         this.name = name;
     }
 
+    public Process(String name) {
+        this.name = name;
+    }
+
     public Long getProcessId() {
         return processId;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Process update(String processName) {
+        this.name = processName;
+        return this;
     }
 }
