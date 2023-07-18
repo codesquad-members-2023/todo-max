@@ -1,6 +1,5 @@
 package codesquad.todolist.travelers.task.domain.repository;
 
-import codesquad.todolist.travelers.task.domain.entity.Process;
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +15,6 @@ public interface TaskRepository {
 
     List<Task> findAllBy(final Long processId);
 
-    List<Process> findProcesses();
-
     Task findBy(final Long taskId);
 
-    String findProcessNameBy(final Long processId);
 }
