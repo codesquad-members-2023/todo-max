@@ -62,6 +62,12 @@ public class JdbcProcessRepositoryImpl implements ProcessRepository {
         template.update(sql, params);
     }
 
+    @Override
+    public void deleteProcess(Long processId) {
+        String sql = "DELETE FROM process WHERE process_id = :processId";
+        template.update(sql, Map.of("processId", processId));
+    }
+
     private RowMapper<Process> processRowMapper() {
         return ((rs, rowNum) -> new Process(
                 rs.getLong("process_id"),
