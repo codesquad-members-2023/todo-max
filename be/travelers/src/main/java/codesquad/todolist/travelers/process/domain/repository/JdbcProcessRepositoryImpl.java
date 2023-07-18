@@ -46,6 +46,22 @@ public class JdbcProcessRepositoryImpl implements ProcessRepository {
         return Optional.ofNullable(keyHolder.getKey()).map(Number::longValue);
     }
 
+    @Override
+    public Optional<Process> findProcessById(Long processId) {
+        String sql = "SELECT process_id, name FROM process WHERE process_id = :processId";
+
+        return template.query(sql, Map.of("processId", processId), processRowMapper()).stream().findFirst();
+    }
+
+    @Override
+    public void updateProcess(Process process) {
+        String sql = "UPDATE process SET name = :name WHERE process_id = :processId";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", process.getName());
+        params.addValue("processId", process.getProcessId());
+        template.update(sql, params);
+    }
+
     private RowMapper<Process> processRowMapper() {
         return ((rs, rowNum) -> new Process(
                 rs.getLong("process_id"),
