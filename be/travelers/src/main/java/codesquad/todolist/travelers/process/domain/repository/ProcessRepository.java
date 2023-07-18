@@ -9,4 +9,8 @@ public interface ProcessRepository {
     String findProcessNameBy(final Long processId);
 
     Optional<Long> createProcess(final Process process);
+
+    Optional<Process> findProcessById(final Long processId);
+
+    void updateProcess(Process process);
 }
