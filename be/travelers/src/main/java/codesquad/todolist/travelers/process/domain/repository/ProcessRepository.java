@@ -12,5 +12,7 @@ public interface ProcessRepository {
 
     Optional<Process> findProcessById(final Long processId);
 
-    void updateProcess(Process process);
+    void updateProcess(final Process process);
+
+    void deleteProcess(final Long processId);
 }
