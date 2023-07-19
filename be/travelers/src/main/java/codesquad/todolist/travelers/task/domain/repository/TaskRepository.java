@@ -15,6 +15,6 @@ public interface TaskRepository {
 
     List<Task> findAllBy(final Long processId);
 
-    Task findBy(final Long taskId);
+    Task findByIgnoringDeleted(final Long taskId);
 
 }

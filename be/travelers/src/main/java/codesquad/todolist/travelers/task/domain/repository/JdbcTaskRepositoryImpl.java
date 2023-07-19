@@ -35,7 +35,8 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
 
     @Override
     public void deleteBy(final Long taskId) {
-        String sql = "DELETE FROM task " +
+        String sql = "UPDATE task " +
+                "SET is_deleted = 1 " +
                 "WHERE task_id = :taskId";
 
         template.update(sql, Map.of("taskId", taskId));
@@ -81,7 +82,7 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Task findBy(final Long taskId) {
+    public Task findByIgnoringDeleted(final Long taskId) {
         String sql = "SELECT * FROM task WHERE task_id = :taskId";
 
         return template.queryForObject(sql, Map.of("taskId", taskId), taskRowMapper());
