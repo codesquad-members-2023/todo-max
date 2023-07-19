@@ -101,8 +101,8 @@ public class TaskController {
                                                        @RequestBody @Valid final TaskUpdateRequestDto taskUpdateRequestDto) {
         taskService.updateTask(taskId, taskUpdateRequestDto);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonApiResponse.success("200", "카드 수정 성공"));
+        return ResponseEntity.status(TASK_SUCCESS.getHttpStatus())
+                .body(CommonApiResponse.success(TASK_SUCCESS.getCustomStatus(), TASK_SUCCESS.getMessage()));
     }
 
     @Operation(summary = "카드 이동", description = "PATCH 요청으로 원하는 칼럼(process)으로 카드를 이동시킨다. body로는 processId를 받는다.")
@@ -112,7 +112,7 @@ public class TaskController {
                                                      @RequestBody final TaskMoveRequestDto taskMoveRequestDto) {
         taskService.updateTaskByProcess(taskId, taskMoveRequestDto);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(CommonApiResponse.success("200", "카드 이동 성공"));
+        return ResponseEntity.status(TASK_SUCCESS.getHttpStatus())
+                .body(CommonApiResponse.success(TASK_SUCCESS.getCustomStatus(), TASK_SUCCESS.getMessage()));
     }
 }
