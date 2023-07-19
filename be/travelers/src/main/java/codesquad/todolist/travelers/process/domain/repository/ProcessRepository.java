@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public interface ProcessRepository {
     List<Process> findProcesses();
+
     String findProcessNameBy(final Long processId);
 
     Optional<Long> createProcess(final Process process);

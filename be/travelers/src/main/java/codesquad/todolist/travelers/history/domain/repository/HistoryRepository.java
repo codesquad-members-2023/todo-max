@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface HistoryRepository {
     void deleteAll();
+
     List<ActionHistory> findAll();
+
     Optional<Long> save(final History history);
 }
