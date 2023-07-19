@@ -24,10 +24,10 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     @Override
     public Optional<Long> save(final Task task) {
         // INSERT문에서는 JOIN 필요 X
-        String sql = "INSERT INTO task (title, contents, platform, process_id) "
-                + "VALUES (:title, :contents, :platform, :processId)";
+        String sql = "INSERT INTO task (title, contents, platform, process_id, position) "
+                + "VALUES (:title, :contents, :platform, :processId, :position)";
 
-        SqlParameterSource param = new BeanPropertySqlParameterSource(task);
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(sql, param, keyHolder);
         return Optional.ofNullable(keyHolder.getKey()).map(Number::longValue);
@@ -57,13 +57,14 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public void updateTaskBy(Long processId, Long taskId) {
+    public void updateTaskBy(final Long processId, final Long taskId, final double position) {
         String sql = "UPDATE task " +
-                "SET process_id = :processId " +
+                "SET process_id = :processId, position = :position " +
                 "WHERE task_id = :taskId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("processId", processId)
+                .addValue("position", position)
                 .addValue("taskId", taskId);
 
         template.update(sql, param);
@@ -71,10 +72,10 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAllBy(final Long processId) {
-        String sql = "SELECT task_id, title, contents, platform, created_time, process_id "
+        String sql = "SELECT task_id, title, contents, platform, position, process_id "
                 + "FROM task "
-                + "WHERE process_id = :processId "
-                + "ORDER BY created_time DESC";
+                + "WHERE process_id = :processId AND is_deleted = 0 "
+                + "ORDER BY position DESC";
 
         SqlParameterSource param = new MapSqlParameterSource("processId", processId);
 
@@ -88,14 +89,21 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
         return template.queryForObject(sql, Map.of("taskId", taskId), taskRowMapper());
     }
 
+    @Override
+    public Long findPositionById(final Long taskId) {
+        String sql = "SELECT position FROM task "
+                + "WHERE task_id = :taskId";
+        return template.queryForObject(sql, Map.of("taskId", taskId), Long.class);
+    }
+
     private RowMapper<Task> taskRowMapper() {
         return ((rs, rowNum) -> new Task(
                 rs.getLong("task_id"),
                 rs.getString("title"),
                 rs.getString("contents"),
                 rs.getString("platform"),
-                rs.getTimestamp("created_time").toLocalDateTime(),
-                rs.getLong("process_id")
+                rs.getLong("process_id"),
+                rs.getDouble("position")
         ));
     }
 }

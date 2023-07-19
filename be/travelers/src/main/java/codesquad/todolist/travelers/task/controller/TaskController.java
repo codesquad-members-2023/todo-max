@@ -141,8 +141,8 @@ public class TaskController {
     @Parameter(name = "taskId", description = "카드의 고유 ID")
     @PatchMapping("/task/process/{taskId}")
     public ResponseEntity<CommonApiResponse<?>> move(@PathVariable final Long taskId,
-                                                     @RequestBody final TaskProcessIdRequestDto taskProcessIdRequestDto) {
-        taskService.updateTaskByProcess(taskId, taskProcessIdRequestDto);
+                                                     @RequestBody final TaskMoveRequestDto taskMoveRequestDto) {
+        taskService.updateTaskByProcess(taskId, taskMoveRequestDto);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CommonApiResponse.success("200", "카드 이동 성공"));

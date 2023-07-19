@@ -11,10 +11,12 @@ public interface TaskRepository {
 
     void updateBy(final Long taskId, final Task task);
 
-    void updateTaskBy(final Long processId, final Long taskId);
+    void updateTaskBy(final Long processId, final Long taskId, final double position);
 
     List<Task> findAllBy(final Long processId);
 
     Task findByIgnoringDeleted(final Long taskId);
+
+    Long findPositionById(final Long taskId);
 
 }
