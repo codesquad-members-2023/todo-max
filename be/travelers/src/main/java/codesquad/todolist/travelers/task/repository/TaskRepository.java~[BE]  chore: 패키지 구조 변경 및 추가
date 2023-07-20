@@ -1,4 +1,4 @@
-package codesquad.todolist.travelers.task.domain.repository;
+package codesquad.todolist.travelers.task.repository;
 
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;

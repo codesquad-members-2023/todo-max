@@ -1,9 +1,8 @@
-package codesquad.todolist.travelers.history.domain.repository;
+package codesquad.todolist.travelers.history.repository;
 
-import codesquad.todolist.travelers.history.domain.ActionHistory;
 import codesquad.todolist.travelers.history.domain.entity.History;
+import codesquad.todolist.travelers.history.domain.vo.ActionHistory;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
