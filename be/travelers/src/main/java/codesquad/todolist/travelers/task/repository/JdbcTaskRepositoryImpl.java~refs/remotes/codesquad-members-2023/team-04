@@ -1,4 +1,4 @@
-package codesquad.todolist.travelers.task.domain.repository;
+package codesquad.todolist.travelers.task.repository;
 
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;
@@ -94,6 +94,12 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
         String sql = "SELECT position FROM task "
                 + "WHERE task_id = :taskId";
         return template.queryForObject(sql, Map.of("taskId", taskId), Long.class);
+    }
+
+    @Override
+    public void deleteByProcessId(final Long processId) {
+        String sql = "UPDATE task SET is_deleted = 1 WHERE process_id = :processId";
+        template.update(sql, Map.of("processId", processId));
     }
 
     private RowMapper<Task> taskRowMapper() {

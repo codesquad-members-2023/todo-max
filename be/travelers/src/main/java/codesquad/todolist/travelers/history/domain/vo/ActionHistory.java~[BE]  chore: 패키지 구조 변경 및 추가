@@ -1,4 +1,4 @@
-package codesquad.todolist.travelers.history.domain;
+package codesquad.todolist.travelers.history.domain.vo;
 
 import java.time.LocalDateTime;
 
