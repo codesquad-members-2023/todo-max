@@ -9,18 +9,18 @@ public class ActionHistory {
     private final String action;
     private final LocalDateTime createdTime;
     private final String userName;
-    private final String imageURL;
+    private final String imageUrl;
 
     public ActionHistory(String title, String from, String to, String action, LocalDateTime createdTime,
                          String userName,
-                         String imageURL) {
+                         String imageUrl) {
         this.title = title;
         this.from = from;
         this.to = to;
         this.action = action;
         this.createdTime = createdTime;
         this.userName = userName;
-        this.imageURL = imageURL;
+        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {
@@ -47,7 +47,7 @@ public class ActionHistory {
         return userName;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
