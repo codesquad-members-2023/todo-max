@@ -19,4 +19,6 @@ public interface TaskRepository {
 
     Long findPositionById(final Long taskId);
 
+    void deleteByProcessId(final Long processId);
+
 }
