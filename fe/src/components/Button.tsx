@@ -1,88 +1,103 @@
-import styled from 'styled-components';
-import PlusIcon from './PlusIcon';
+import { ButtonHTMLAttributes } from 'react';
+import { styled } from 'styled-components';
 import { designSystem } from '../styles/designSystem';
 
-type States = 'enabled' | 'disabled' | 'hover';
-type Type = 'confirm' | 'delete' | 'cancel';
+type ButtonVariant = 'blue' | 'red' | 'gray' | 'transparent';
+type ButtonPattern = 'text' | 'icon';
 
-interface Props {
-  elementPattern?: 'iconOnly' | 'textOnly' | 'iconText';
-  states?: States;
-  type?: Type;
-  text?: string;
-  onClick?: () => void;
-  width?: string;
-  height?: string;
+type Variant = {
+  color: string;
+  background: string;
+};
+
+type Variants = {
+  blue: Variant;
+  red: Variant;
+  gray: Variant;
+  transparent: Variant;
+};
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  pattern: ButtonPattern;
+  iconHoverColor?: string;
 }
 
 export default function Button({
-  elementPattern = 'textOnly',
-  states = 'enabled',
-  type = 'confirm',
-  text,
-  onClick,
-  width,
-  height,
-}: Props) {
+  variant = 'transparent',
+  pattern,
+  iconHoverColor,
+  children,
+  ...props
+}: ButtonProps) {
+  const VARIANTS: Variants = {
+    blue: {
+      color: designSystem.colorSystem.textWhiteDefault,
+      background: designSystem.colorSystem.surfaceBrand,
+    },
+    red: {
+      color: designSystem.colorSystem.textWhiteDefault,
+      background: designSystem.colorSystem.surfaceDanger,
+    },
+    gray: {
+      color: designSystem.colorSystem.textDefault,
+      background: designSystem.colorSystem.surfaceAlt,
+    },
+    transparent: {
+      color: designSystem.colorSystem.textDefault,
+      background: 'none',
+    },
+  };
+
   return (
     <StyledButton
-      states={states}
-      type={type}
-      onClick={onClick}
-      width={width}
-      height={height}
+      {...{
+        variants: VARIANTS,
+        variant,
+        pattern,
+        iconhovercolor: iconHoverColor,
+      }}
+      {...props}
     >
-      {(elementPattern === 'iconOnly' || elementPattern === 'iconText') && (
-        <PlusIcon width={16} fill={designSystem.colorSystem.textWhiteDefault} />
-      )}
-      {(elementPattern === 'textOnly' || elementPattern === 'iconText') && (
-        <StyledText>{text}</StyledText>
-      )}
+      {children}
     </StyledButton>
   );
 }
 
-interface ButtonProps {
-  states: States;
-  type: Type;
-  width?: string;
-  height?: string;
+interface StyledButtonProps {
+  variants: Variants;
+  variant: ButtonVariant;
+  pattern: ButtonPattern;
+  iconhovercolor?: string;
 }
 
-const StyledButton = styled.button<ButtonProps>`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  background-color: ${(props) =>
-    props.type === 'confirm'
-      ? props.theme.colorSystem.surfaceBrand
-      : props.type === 'delete'
-      ? props.theme.colorSystem.surfaceDanger
-      : props.theme.colorSystem.surfaceAlt};
-
-  font: ${(props) => props.theme.font.displayBold14};
-  color: ${(props) =>
-    props.type === 'confirm' || props.type === 'delete'
-      ? props.theme.colorSystem.textWhiteDefault
-      : props.theme.colorSystem.textDefault};
-  opacity: ${(props) =>
-    props.states === 'hover'
-      ? props.theme.opacity.hover
-      : props.states === 'disabled'
-      ? props.theme.opacity.disabled
-      : 1};
-  padding: 8px;
-  border-radius: 8px;
+const StyledButton = styled.button<StyledButtonProps>`
+  width: ${(props) => (props.pattern === 'text' ? '132px' : 'auto')};
+  height: ${(props) => (props.pattern === 'text' ? '32px' : 'auto')};
+  padding: ${(props) => (props.pattern === 'text' ? '4px' : '0px')};
+  color: ${(props) => props.variants[props.variant].color};
+  background: ${(props) => props.variants[props.variant].background};
+  border-radius: ${(props) => props.theme.objectStyles.radius.s};
+  outline: none;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   &:hover {
-    opacity: ${(props) => props.theme.opacity.hover};
-  }
-`;
+    opacity: 0.8;
 
-const StyledText = styled.div`
-  font: ${(props) => props.theme.font.displayBold14};
-  color: ${(props) => props.theme.colors.textWhiteDefault}
-  padding: 0px 4px;
+    & svg path {
+      fill: ${(props) =>
+        props.iconhovercolor === 'red'
+          ? props.theme.colorSystem.surfaceDanger
+          : props.iconhovercolor === 'blue'
+          ? props.theme.colorSystem.surfaceBrand
+          : null};
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.3;
+  }
 `;

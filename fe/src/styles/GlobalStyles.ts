@@ -22,14 +22,15 @@ a, dl, dt, dd, ol, ul, li, form, label, table {
 body {
   line-height: 1;
   font-family: 'Noto Sans KR', sans-serif;
-  background-color: #F6F9F0;
-  margin-bottom: 100px;
+  background-color: #F7F7FC;
+  margin: 30px 80px 100px;
 }
 ol, ul {
   list-style: none;
 }
 button {
   border: 0;
+  padding: 0;
   background: transparent;
   cursor: pointer;
 }
