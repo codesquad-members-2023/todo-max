@@ -1,7 +1,6 @@
 DROP Table if exists card;
 DROP Table if exists category;
 DROP Table if exists history;
-DROP Table if exists action;
 
 CREATE TABLE category
 (
@@ -21,22 +20,16 @@ CREATE TABLE card
     PRIMARY KEY (id)
 );
 
-CREATE TABLE action
-(
-    id    bigint AUTO_INCREMENT,
-    value varchar(10) NOT NULL,
-    PRIMARY KEY (id)
-);
 
 CREATE TABLE history
 (
     id          bigint AUTO_INCREMENT,
-    action_id   bigint      NOT NULL,
+    action      varchar(64) NOT NULL,
     title       varchar(64) NOT NULL,
     origin      varchar(64),
     destination varchar(64),
     at          varchar(64),
-    created_at  timestamp   NOT NULL,
-    FOREIGN KEY (action_id) REFERENCES action (id),
+    created_at  timestamp default current_timestamp,
+
     PRIMARY KEY (id)
 );

@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import team5.todo.domain.Category;
 
 public class CategoryResponse {
 
 	private final Long id;
 	private final String name;
+
+	@JsonProperty("cards")
 	private final List<CardResponse> cardResponses;
 
 	public static class Builder {

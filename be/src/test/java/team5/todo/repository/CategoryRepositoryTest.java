@@ -1,8 +1,8 @@
 package team5.todo.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
+import static org.assertj.core.api.Assertions.*;
 
 import javax.sql.DataSource;
 
@@ -24,7 +24,7 @@ public class CategoryRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("전체 카테고리를 조회하면, 3개의 카테고리를 반환한다.")
+	@DisplayName("전체 카테고리를 조회하면,id 오름차 순으로 3개의 카테고리를 반환한다.")
 	void findAllTest() {
 		//given
 
@@ -32,6 +32,9 @@ public class CategoryRepositoryTest {
 		List<Category> actual = categoryRepository.findAll();
 
 		//then
-		assertEquals(3, actual.size());
+		assertThat(actual.size()).isEqualTo(3);
+		assertThat(actual.get(0).getId()).isEqualTo(1L);
+		assertThat(actual.get(1).getId()).isEqualTo(2L);
+		assertThat(actual.get(2).getId()).isEqualTo(3L);
 	}
 }

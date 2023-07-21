@@ -167,6 +167,8 @@ out/
 ### VS Code ###
 .vscode/
 
+
+
 # Logs
 logs
 *.log
@@ -191,3 +193,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
