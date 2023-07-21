@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
+
 public class HistoryController {
 
     private final HistoryService historyService;
@@ -21,6 +22,7 @@ public class HistoryController {
     public HistoryController(HistoryService historyService) {
         this.historyService = historyService;
     }
+
 
     @Operation(summary = "활동기록 전체 삭제", description = "서버에 저장된 모든 활동기록을 삭제한다.")
     @DeleteMapping("/history")

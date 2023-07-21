@@ -1,5 +1,6 @@
 package codesquad.todolist.travelers.history.controller;
 
+
 import static codesquad.todolist.travelers.global.SuccessCode.HISTORY_SUCCESS;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;

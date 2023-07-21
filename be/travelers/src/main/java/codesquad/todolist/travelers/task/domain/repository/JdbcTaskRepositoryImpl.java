@@ -1,9 +1,10 @@
-package codesquad.todolist.travelers.task.repository;
+package codesquad.todolist.travelers.task.domain.repository;
 
+import codesquad.todolist.travelers.task.domain.entity.Process;
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Objects;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -22,24 +23,25 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Optional<Long> save(final Task task) {
+    public Long save(final Task task) {
         // INSERT문에서는 JOIN 필요 X
-        String sql = "INSERT INTO task (title, contents, platform, process_id, position) "
-                + "VALUES (:title, :contents, :platform, :processId, :position)";
+        String sql = "INSERT INTO task (title, contents, platform, created_time, process_id) "
+                + "VALUES (:title, :contents, :platform, :createdTime, :processId)";
 
-        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(task);
+        SqlParameterSource param = new BeanPropertySqlParameterSource(task);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(sql, param, keyHolder);
-        return Optional.ofNullable(keyHolder.getKey()).map(Number::longValue);
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     @Override
     public void deleteBy(final Long taskId) {
-        String sql = "UPDATE task " +
-                "SET is_deleted = 1 " +
+        String sql = "DELETE FROM task " +
                 "WHERE task_id = :taskId";
 
-        template.update(sql, Map.of("taskId", taskId));
+        Map<String, Object> param = Map.of("taskId", taskId);
+
+        template.update(sql, param);
     }
 
     @Override
@@ -57,14 +59,13 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public void updateTaskBy(final Long processId, final Long taskId, final double position) {
+    public void updateTaskBy(Long processId, Long taskId) {
         String sql = "UPDATE task " +
-                "SET process_id = :processId, position = :position " +
+                "SET process_id = :processId " +
                 "WHERE task_id = :taskId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("processId", processId)
-                .addValue("position", position)
                 .addValue("taskId", taskId);
 
         template.update(sql, param);
@@ -72,10 +73,11 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAllBy(final Long processId) {
-        String sql = "SELECT task_id, title, contents, platform, position, process_id "
-                + "FROM task "
-                + "WHERE process_id = :processId AND is_deleted = 0 "
-                + "ORDER BY position DESC";
+        String sql = "SELECT t.task_id, t.title, t.contents, t.platform, t.created_time, t.process_id "
+                + "FROM task t "
+                + "JOIN process p ON t.process_id = p.process_id "
+                + "WHERE t.process_id = :processId "
+                + "ORDER BY created_time DESC";
 
         SqlParameterSource param = new MapSqlParameterSource("processId", processId);
 
@@ -83,23 +85,11 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Task findByIgnoringDeleted(final Long taskId) {
-        String sql = "SELECT * FROM task WHERE task_id = :taskId";
+    public List<Process> findProcesses() {
+        String sql = "SELECT process_id, name "
+                + "FROM process";
 
-        return template.queryForObject(sql, Map.of("taskId", taskId), taskRowMapper());
-    }
-
-    @Override
-    public Long findPositionById(final Long taskId) {
-        String sql = "SELECT position FROM task "
-                + "WHERE task_id = :taskId";
-        return template.queryForObject(sql, Map.of("taskId", taskId), Long.class);
-    }
-
-    @Override
-    public void deleteByProcessId(final Long processId) {
-        String sql = "UPDATE task SET is_deleted = 1 WHERE process_id = :processId";
-        template.update(sql, Map.of("processId", processId));
+        return template.query(sql, processRowMapper());
     }
 
     private RowMapper<Task> taskRowMapper() {
@@ -108,8 +98,15 @@ public class JdbcTaskRepositoryImpl implements TaskRepository {
                 rs.getString("title"),
                 rs.getString("contents"),
                 rs.getString("platform"),
+                rs.getTimestamp("created_time").toLocalDateTime(),
+                rs.getLong("process_id")
+        ));
+    }
+
+    private RowMapper<Process> processRowMapper() {
+        return ((rs, rowNum) -> new Process(
                 rs.getLong("process_id"),
-                rs.getDouble("position")
+                rs.getString("name")
         ));
     }
 }

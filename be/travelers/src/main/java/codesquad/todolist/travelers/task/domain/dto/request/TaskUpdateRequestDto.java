@@ -1,6 +1,7 @@
 package codesquad.todolist.travelers.task.domain.dto.request;
 
 import codesquad.todolist.travelers.task.domain.entity.Task;
+
 import javax.validation.constraints.Size;
 
 public class TaskUpdateRequestDto {

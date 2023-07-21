@@ -36,9 +36,9 @@ public class ProcessController {
     })
     @PostMapping("/process")
     public ResponseEntity<CommonApiResponse<?>> save(@Valid @RequestBody ProcessRequestDto processRequestDto) {
-        processService.saveProcess(processRequestDto);
+        Long processId = processService.saveProcess(processRequestDto);
         return ResponseEntity.status(PROCESS_SUCCESS.getHttpStatus())
-                .body(CommonApiResponse.success(PROCESS_SUCCESS.getCustomStatus(), PROCESS_SUCCESS.getMessage()));
+                .body(CommonApiResponse.success(PROCESS_SUCCESS.getCustomStatus(), processId));
     }
 
     @Operation(summary = "컬럼 수정 기능", description = "processId와 변경할 name으로 수정")

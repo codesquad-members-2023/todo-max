@@ -1,7 +1,6 @@
 
 ![](https://img.shields.io/badge/Last_Upadate-2023--07--20-blue)
 ![](https://img.shields.io/badge/Sprint-2-green)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2F%2Fcodesquad-gwanaksan%2Fkiosk-max%2Fbadge%3Fref%3Ddev&style=flat)](https://actions-badge.atrox.dev//codesquad-gwanaksan/kiosk-max/goto?ref=dev)
 
 <br/>
 
@@ -34,15 +33,10 @@
 ![](https://camo.githubusercontent.com/a91f29fbfde227665b0cd5a447c0b035180e8a285bfef1ec8d91c8ba80fcaa20/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f547970657363726970742d3331373843363f7374796c653d666c6174266c6f676f3d54797065536372697074266c6f676f436f6c6f723d7768697465)
 ![](https://camo.githubusercontent.com/e3883202fdd9cb44fd6a62f35730342d5cd477c3d76a2140aa38aa87eac6b224/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d56697375616c25323053747564696f253230436f64652d3030374143433f7374796c653d666c6174266c6f676f3d56697375616c25323053747564696f253230436f6465266c6f676f436f6c6f723d7768697465)
 
-- CRA (Create React App)
-- CSS Modules
-- Typescript: `^5.0.2`
-- @types/node: `^20.3.1`
-- @types/react: `^18.2.13`
-- @types/react-dom: `^18.2.6`
-- react: `^18.2.0`
-- react-dom: `^18.2.0`
-- react-scripts: `5.0.1`
+- VITE
+- Styled-Components
+- React
+- TypeScript
 
 ### Back-End
 ![](https://img.shields.io/badge/Java-007396?style=flat&logo=Java&logoColor=white)

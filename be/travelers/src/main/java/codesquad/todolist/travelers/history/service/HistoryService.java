@@ -1,5 +1,6 @@
 package codesquad.todolist.travelers.history.service;
 
+
 import codesquad.todolist.travelers.actionType.ActionType;
 import codesquad.todolist.travelers.aspect.dto.TaskServiceHistoryDto;
 import codesquad.todolist.travelers.global.CustomException;
@@ -10,6 +11,7 @@ import codesquad.todolist.travelers.history.repository.HistoryRepository;
 import codesquad.todolist.travelers.process.repository.ProcessRepository;
 import codesquad.todolist.travelers.task.domain.entity.Task;
 import codesquad.todolist.travelers.task.repository.TaskRepository;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class HistoryService {
         this.historyRepository = historyRepository;
         this.taskRepository = taskRepository;
         this.processRepository = processRepository;
+
     }
 
     public void deleteAllHistory() {

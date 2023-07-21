@@ -1,5 +1,6 @@
 package codesquad.todolist.travelers.history.domain.dto.response;
 
+
 import codesquad.todolist.travelers.history.domain.vo.ActionHistory;
 import java.time.LocalDateTime;
 

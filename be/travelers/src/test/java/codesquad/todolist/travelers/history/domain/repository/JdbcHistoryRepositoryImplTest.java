@@ -31,7 +31,7 @@ class JdbcHistoryRepositoryImplTest {
         List<ActionHistory> actual = repository.findAll();
         Assertions.assertThat(actual.size()).isEqualTo(0);
     }
-
+  
     @Test
     @DisplayName("findAll() 을 통해 모든 활동 기록을 조회 할수있다.")
     void findAllTest() throws InterruptedException {
@@ -82,5 +82,4 @@ class JdbcHistoryRepositoryImplTest {
     private ActionHistory dummyActionHistoryForMove() {
         return new ActionHistory("블로그에 포스팅할 것", "하고있는 일", "해야할 일", "이동", LocalDateTime.now(), "anonymous", "");
     }
-
 }
