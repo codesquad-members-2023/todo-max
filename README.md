@@ -1,8 +1,6 @@
-
 ![](https://img.shields.io/badge/Last_Upadate-2023--07--20-blue)
 ![](https://img.shields.io/badge/Sprint-2-green)
 
-<br/>
 
 # 📜 TODO 리스트 프로젝트
 - 2023 코드스쿼드 마스터즈 Max에서 진행한 "TODO 리스트"를 구현하는 그룹 프로젝트
